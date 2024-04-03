@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dash.js Player with Adaptive Bitrate</title>
+</head>
+<body>
+
+<!-- Video Player Element -->
+<video id="videoPlayer" controls></video>
+
+<!-- Dash.js Library -->
+<script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Initialize Dash.js Player
+    var videoPlayer = dashjs.MediaPlayer().create();
+    videoPlayer.initialize(document.querySelector("#videoPlayer"), "http://example.com/path/to/manifest.mpd", true);
+
+    // Optional: Configure Player Settings
+    videoPlayer.updateSettings({
+      'streaming': {
+        'abr': {
+          'autoSwitchBitrate': {
+            'enabled': true
+          }
+        }
+      }
+    });
+
+    // Optional: Error Handling
+    videoPlayer.on(dashjs.MediaPlayer.events.ERROR, function (e) {
+      console.error('Error encountered:', e.error);
+    });
+  });
+</script>
+
+</body>
+</html>
