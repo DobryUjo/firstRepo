@@ -1,5 +1,5 @@
 local speaker = peripheral.find("speaker")
-local disk = peripheral.find("disk")
+local disk = peripheral.find("drive")
 local modem = peripheral.find("modem")
 
 if not speaker then
