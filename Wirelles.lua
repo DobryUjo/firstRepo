@@ -34,7 +34,7 @@ if not file then
 end
 
 -- Open the disk for writing
-local diskFile = drive.open(fileName, "wb")  -- Use "drive" instead of "disk"
+local diskFile = drive.open(fileName, "w")  -- Use "w" mode for writing
 if not diskFile then
     print("Failed to open the disk for writing!")
     return
@@ -53,7 +53,7 @@ local dfpwm = require("cc.audio.dfpwm")
 local decoder = dfpwm.make_decoder()
 
 -- Open the .dfpwm file from the floppy disk
-local diskFile = drive.open(fileName, "rb")  -- Use "drive" instead of "disk"
+local diskFile = drive.open(fileName, "r")  -- Use "r" mode for reading
 if not diskFile then
     print("Failed to open the .dfpwm file from disk!")
     return
