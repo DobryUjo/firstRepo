@@ -1,0 +1,49 @@
+local speaker = peripheral.find("speaker")
+if not speaker then
+    print("No speaker found!")
+    return
+end
+
+local buffer = {}
+local sampleRate = 48000  -- Standard audio sample rate
+local duration = 0.2  -- Duration per note (in seconds)
+local baseFrequency = 220  -- Starting frequency (for the low 'A' note)
+local t, dt = 0, 2 * math.pi * baseFrequency / sampleRate
+
+-- Rickroll melody notes (frequencies of the notes in Hz)
+local melody = {
+    220,  // A3
+    220,  // A3
+    220,  // A3
+    220,  // A3
+    220,  // A3
+    220,  // A3
+    220,  // A3
+    220,  // A3
+    220,  // A3
+    220,  // A3
+}
+
+-- Generate sine wave buffer for a single note
+local function generateSineWave(frequency, duration)
+    local noteBuffer = {}
+    local dt = 2 * math.pi * frequency / sampleRate
+    for i = 1, sampleRate * duration do
+        noteBuffer[i] = math.floor(math.sin(t) * 127)
+        t = (t + dt) % (math.pi * 2)
+    end
+    return noteBuffer
+end
+
+-- Generate the full song
+for i, freq in ipairs(melody) do
+    local noteBuffer = generateSineWave(freq, duration)
+    for j = 1, #noteBuffer do
+        buffer[#buffer + 1] = noteBuffer[j]
+    end
+end
+
+-- Play the audio through the speaker
+speaker.playAudio(buffer)
+
+print("🎶 Rickroll Complete!")
