@@ -7,21 +7,20 @@ end
 local buffer = {}
 local sampleRate = 48000  -- Standard audio sample rate
 local duration = 0.2  -- Duration per note (in seconds)
-local baseFrequency = 220  -- Starting frequency (for the low 'A' note)
-local t, dt = 0, 2 * math.pi * baseFrequency / sampleRate
+local t, dt = 0, 2 * math.pi * 220 / sampleRate
 
 -- Rickroll melody notes (frequencies of the notes in Hz)
 local melody = {
-    220,  // A3
-    220,  // A3
-    220,  // A3
-    220,  // A3
-    220,  // A3
-    220,  // A3
-    220,  // A3
-    220,  // A3
-    220,  // A3
-    220,  // A3
+    220,  -- A3
+    220,  -- A3
+    220,  -- A3
+    220,  -- A3
+    220,  -- A3
+    220,  -- A3
+    220,  -- A3
+    220,  -- A3
+    220,  -- A3
+    220,  -- A3
 }
 
 -- Generate sine wave buffer for a single note
