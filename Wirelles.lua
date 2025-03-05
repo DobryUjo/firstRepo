@@ -33,8 +33,15 @@ if not file then
     return
 end
 
--- Open the disk for writing
-local diskFile = drive.open(fileName, "w")  -- Use "w" mode for writing
+-- Check if the floppy disk is present and formatted
+if not fs.exists("disk") then
+    print("No disk found in the drive!")
+    return
+end
+
+-- Open the disk for writing using the fs module
+local filePath = "disk/" .. fileName  -- "disk" is the root directory of the disk drive
+local diskFile = fs.open(filePath, "w")  -- Use "w" mode for writing
 if not diskFile then
     print("Failed to open the disk for writing!")
     return
@@ -52,8 +59,8 @@ print("File downloaded and saved to disk.")
 local dfpwm = require("cc.audio.dfpwm")
 local decoder = dfpwm.make_decoder()
 
--- Open the .dfpwm file from the floppy disk
-local diskFile = drive.open(fileName, "r")  -- Use "r" mode for reading
+-- Open the .dfpwm file from the floppy disk using fs module
+local diskFile = fs.open(filePath, "r")  -- Use "r" mode for reading
 if not diskFile then
     print("Failed to open the .dfpwm file from disk!")
     return
