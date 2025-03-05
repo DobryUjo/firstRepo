@@ -4,45 +4,17 @@ if not speaker then
     return
 end
 
-local buffer = {}
-local sampleRate = 48000  -- Standard audio sample rate
-local duration = 0.2  -- Duration per note (in seconds)
-local t, dt = 0, 2 * math.pi * 220 / sampleRate
+local dfpwm = require("cc.audio.dfpwm")
+local decoder = dfpwm.make_decoder()
 
--- Rickroll melody notes (frequencies of the notes in Hz)
-local melody = {
-    220,  -- A3
-    220,  -- A3
-    220,  -- A3
-    220,  -- A3
-    220,  -- A3
-    220,  -- A3
-    220,  -- A3
-    220,  -- A3
-    220,  -- A3
-    220,  -- A3
-}
+local file = fs.open("rickroll.dfpwm", "rb") -- Open the file in binary mode
+local data = file.readAll()
+file.close()
 
--- Generate sine wave buffer for a single note
-local function generateSineWave(frequency, duration)
-    local noteBuffer = {}
-    local dt = 2 * math.pi * frequency / sampleRate
-    for i = 1, sampleRate * duration do
-        noteBuffer[i] = math.floor(math.sin(t) * 127)
-        t = (t + dt) % (math.pi * 2)
-    end
-    return noteBuffer
+for chunk in data:gmatch(string.rep(".", 512)) do
+    local decoded = decoder(chunk)
+    speaker.playAudio(decoded)
+    os.sleep(0) -- Prevent lag
 end
-
--- Generate the full song
-for i, freq in ipairs(melody) do
-    local noteBuffer = generateSineWave(freq, duration)
-    for j = 1, #noteBuffer do
-        buffer[#buffer + 1] = noteBuffer[j]
-    end
-end
-
--- Play the audio through the speaker
-speaker.playAudio(buffer)
 
 print("🎶 Rickroll Complete!")
