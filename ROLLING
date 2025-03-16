@@ -1,0 +1,27 @@
+local speaker = peripheral.find("speaker")
+if not speaker then
+    print("No speaker found!")
+    return
+end
+
+local dfpwm = require("cc.audio.dfpwm")
+local decoder = dfpwm.make_decoder()
+
+while true do  -- Infinite loop
+    local file = fs.open("rickroll.dfpwm", "rb") -- Open the file in binary mode
+    if not file then
+        print("Failed to open rickroll.dfpwm!")
+        return
+    end
+    
+    local data = file.readAll()
+    file.close()
+
+    for chunk in data:gmatch(string.rep(".", 512)) do
+        local decoded = decoder(chunk)
+        speaker.playAudio(decoded)
+        os.sleep(0) -- Prevent lag
+    end
+
+    print("🎶 Rickroll Restarting! 🎶")
+end
