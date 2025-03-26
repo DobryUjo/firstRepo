@@ -1,4 +1,3 @@
-wget https://github.com/DobryUjo/firstRepo/raw/refs/heads/main/universal.dfpwm
 local speaker = peripheral.find("speaker")
 if not speaker then
     print("No speaker found!")
