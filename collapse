@@ -1,0 +1,19 @@
+wget https://github.com/DobryUjo/firstRepo/raw/refs/heads/main/universal.dfpwm
+local speaker = peripheral.find("speaker")
+if not speaker then
+    print("No speaker found!")
+    return
+end
+
+local dfpwm = require("cc.audio.dfpwm")
+local decoder = dfpwm.make_decoder()
+
+local file = fs.open("universal.dfpwm", "rb") -- Open the file in binary mode
+local data = file.readAll()
+file.close()
+
+for chunk in data:gmatch(string.rep(".", 512)) do
+    local decoded = decoder(chunk)
+    speaker.playAudio(decoded)
+    os.sleep(0) -- Prevent lag
+end
